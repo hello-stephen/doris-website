@@ -104,7 +104,7 @@ order BY
 +---------+-------+
 ```
 
-For `uesr_id=100123`, because the time when the `payment` event occurred exceeds the time window, the matched event chain is `login-visit-order`.
+For `user_id=100123`, because the time when the `payment` event occurred exceeds the time window, the matched event chain is `login-visit-order`.
 
 ### example2: deduplication mode
 
@@ -125,7 +125,7 @@ VALUES
     (100123, 'login', '2022-05-14 10:01:00', 'HONOR', 1),
     (100123, 'visit', '2022-05-14 10:02:00', 'HONOR', 2),
     (100123, 'login', '2022-05-14 10:03:00', 'HONOR', 3),
-    (100123, 'order', '2022-05-14 10:04:00', "HONOR", 4),
+    (100123, 'order', '2022-05-14 10:04:00', 'HONOR', 4),
     (100123, 'payment', '2022-05-14 10:10:00', 'HONOR', 4),
     (100125, 'login', '2022-05-15 11:00:00', 'XIAOMI', 1),
     (100125, 'visit', '2022-05-15 11:01:00', 'XIAOMI', 2),
@@ -164,7 +164,7 @@ order BY
 |  100127 |     2 |
 +---------+-------+
 ```
-For `uesr_id=100123`, after matching the `visit` event, the `login` event appears repeatedly, so the matched event chain is `login-visit`.
+For `user_id=100123`, after matching the `visit` event, the `login` event appears repeatedly, so the matched event chain is `login-visit`.
 
 ### example3: fixed mode
 
@@ -185,7 +185,7 @@ VALUES
     (100123, 'login', '2022-05-14 10:01:00', 'HONOR', 1),
     (100123, 'visit', '2022-05-14 10:02:00', 'HONOR', 2),
     (100123, 'login2', '2022-05-14 10:03:00', 'HONOR', 3),
-    (100123, 'order', '2022-05-14 10:04:00', "HONOR", 4),
+    (100123, 'order', '2022-05-14 10:04:00', 'HONOR', 4),
     (100123, 'payment', '2022-05-14 10:10:00', 'HONOR', 4),
     (100125, 'login', '2022-05-15 11:00:00', 'XIAOMI', 1),
     (100125, 'visit', '2022-05-15 11:01:00', 'XIAOMI', 2),
@@ -224,7 +224,7 @@ order BY
 |  100127 |     2 |
 +---------+-------+
 ```
-For `uesr_id=100123`, `login2` does not match any condition in the funnel, so it does not break the `fixed` chain. The matched event chain is `login-visit-order-payment`.
+For `user_id=100123`, `login2` does not match any condition in the funnel, so it does not break the `fixed` chain. The matched event chain is `login-visit-order-payment`.
 
 ### example4: increase mode
 
@@ -244,7 +244,7 @@ INSERT INTO
 VALUES
     (100123, 'login', '2022-05-14 10:01:00', 'HONOR', 1),
     (100123, 'visit', '2022-05-14 10:02:00', 'HONOR', 2),
-    (100123, 'order', '2022-05-14 10:04:00', "HONOR", 4),
+    (100123, 'order', '2022-05-14 10:04:00', 'HONOR', 4),
     (100123, 'payment', '2022-05-14 10:04:00', 'HONOR', 4),
     (100125, 'login', '2022-05-15 11:00:00', 'XIAOMI', 1),
     (100125, 'visit', '2022-05-15 11:01:00', 'XIAOMI', 2),
@@ -283,4 +283,4 @@ order BY
 |  100127 |     2 |
 +---------+-------+
 ```
-For `uesr_id=100123`, the timestamp of the `payment` event and the timestamp of the `order` event occur in the same second and are not incremented, so the matched event chain is `login-visit-order`.
+For `user_id=100123`, the timestamp of the `payment` event and the timestamp of the `order` event occur in the same second and are not incremented, so the matched event chain is `login-visit-order`.
